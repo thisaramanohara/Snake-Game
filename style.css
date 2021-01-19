@@ -1,0 +1,27 @@
+.border {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    background-color: burlywood;
+}
+
+.snakeHead {
+    background-color: crimson;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+}
+
+.snakeBody {
+    background-color: black;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+}
+
+.fillCell {
+    background-color: burlywood;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+}
