@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const snakeBody = document.createElement('div')
 
     let start=250
+    let upTimerId,rightTimerId
 
     let bodyIndex = [
         [start,start],
@@ -62,13 +63,12 @@ document.addEventListener('DOMContentLoaded',()=>{
         border.appendChild(snakeBody)
     }
 
-    const moveStraight = ()=>{
-        
-
+    const moveUp = ()=>{
+        clearInterval(rightTimerId)
         upTimerId = setInterval(()=>{
             lastLeft = bodyIndex[bodyIndex.length-1][0]
             lastBottom = bodyIndex[bodyIndex.length-1][1]
-            
+
             newLeft = bodyIndex[0][0]
             newBottom = bodyIndex[0][1] + 10
             bodyIndex.forEach(cell=>{
@@ -82,27 +82,80 @@ document.addEventListener('DOMContentLoaded',()=>{
                 newBottom = currentBottom
             })
             let fillCell = new FillCell(lastLeft,lastBottom)
-            //border.appendChild(fillCell)
-            
-            //bodyIndex.pop()
 
             bodyIndex.forEach(cell=>{
                 let newCell = new BodyCell(cell[0],cell[1])
             })  
             border.appendChild(snakeBody)
-
-
         },100)
     }
+
+
+    const moveRight = ()=>{
+        clearInterval(upTimerId)
+        rightTimerId = setInterval(()=>{
+            lastLeft = bodyIndex[bodyIndex.length-1][0]
+            lastBottom = bodyIndex[bodyIndex.length-1][1]
+
+            newLeft = bodyIndex[0][0] + 10
+            newBottom = bodyIndex[0][1]
+            bodyIndex.forEach(cell=>{
+                currentLeft = cell[0]
+                currentBottom = cell[1]
+
+                cell[0] = newLeft
+                cell[1] = newBottom
+
+                newLeft = currentLeft
+                newBottom = currentBottom
+            })
+            let fillCell = new FillCell(lastLeft,lastBottom)
+
+            bodyIndex.forEach(cell=>{
+                let newCell = new BodyCell(cell[0],cell[1])
+            })  
+            border.appendChild(snakeBody)
+        },100)
+    }
+
+    /*
+    const moveRight = ()=>{
+        rightTimerId = setInterval(()=>{
+            lastLeft = bodyIndex[bodyIndex.length-1][0]
+            lastBottom = bodyIndex[bodyIndex.length-1][1]
+
+            newLeft = bodyIndex[0][0] + 10
+            newBottom = bodyIndex[0][1]
+            bodyIndex.forEach(cell=>{
+                currentLeft = cell[0]
+                currentBottom = cell[1]
+
+                cell[0] = newLeft
+                cell[1] = newBottom
+
+                newLeft = currentLeft
+                newBottom = currentBottom
+            })
+            let fillCell = new FillCell(lastLeft,lastBottom)
+
+            bodyIndex.forEach(cell=>{
+                let newCell = new BodyCell(cell[0],cell[1])
+            })  
+            border.appendChild(snakeBody)
+        },100)
+    }
+
+    */
+
     
 
     const control=(e)=>{
         if(e.key==='ArrowLeft'){
             //moveLeft()
         }else if(e.key==='ArrowRight'){
-            //moveRight()
+            moveRight()
         }else if(e.key==='ArrowUp'){
-            moveStraight()
+            moveUp()
         }
     }
 
