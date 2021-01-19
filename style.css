@@ -25,3 +25,11 @@
     width: 10px;
     height: 10px;
 }
+
+.food {
+    width: 20px;
+    height: 20px;
+    background-color: brown;
+    position: absolute;
+    z-index: 100000;
+}
