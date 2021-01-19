@@ -4,7 +4,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     const snakeBody = document.createElement('div')
 
     let start=250
-    let upTimerId,rightTimerId
+    let upTimerId,rightTimerId,leftTimerId
+    let movingUp=false
+    let movingLeft=false
+    let movingRight=false
 
     let bodyIndex = [
         [start,start],
@@ -64,23 +67,49 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
 
     const moveUp = ()=>{
+        movingUp = true
         clearInterval(rightTimerId)
+        clearInterval(leftTimerId)
         upTimerId = setInterval(()=>{
-            lastLeft = bodyIndex[bodyIndex.length-1][0]
-            lastBottom = bodyIndex[bodyIndex.length-1][1]
 
-            newLeft = bodyIndex[0][0]
-            newBottom = bodyIndex[0][1] + 10
-            bodyIndex.forEach(cell=>{
-                currentLeft = cell[0]
-                currentBottom = cell[1]
+            if(movingRight){
+                lastLeft = bodyIndex[bodyIndex.length-1][0]
+                lastBottom = bodyIndex[bodyIndex.length-1][1]
 
-                cell[0] = newLeft
-                cell[1] = newBottom
+                newLeft = bodyIndex[0][0]
+                newBottom = bodyIndex[0][1] + 10
+                bodyIndex.forEach(cell=>{
+                    currentLeft = cell[0]
+                    currentBottom = cell[1]
 
-                newLeft = currentLeft
-                newBottom = currentBottom
-            })
+                    cell[0] = newLeft
+                    cell[1] = newBottom
+
+                    newLeft = currentLeft
+                    newBottom = currentBottom
+                })
+            }else if(movingLeft){
+                lastLeft = bodyIndex[0][0]
+                lastBottom = bodyIndex[0][1]
+
+                newLeft = bodyIndex[bodyIndex.length-1][0]
+                newBottom = bodyIndex[bodyIndex.length-1][1] + 10
+                bodyIndex.slice().reverse().forEach(cell=>{
+                    currentLeft = cell[0]
+                    currentBottom = cell[1]
+
+                    cell[0] = newLeft
+                    cell[1] = newBottom
+
+                    newLeft = currentLeft
+                    newBottom = currentBottom
+                })
+            }
+
+
+            
+
+            
             let fillCell = new FillCell(lastLeft,lastBottom)
 
             bodyIndex.forEach(cell=>{
@@ -92,7 +121,10 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
     const moveRight = ()=>{
+        movingLeft=false
+        movingRight=true
         clearInterval(upTimerId)
+        clearInterval(leftTimerId)
         rightTimerId = setInterval(()=>{
             lastLeft = bodyIndex[bodyIndex.length-1][0]
             lastBottom = bodyIndex[bodyIndex.length-1][1]
@@ -118,15 +150,19 @@ document.addEventListener('DOMContentLoaded',()=>{
         },100)
     }
 
-    /*
-    const moveRight = ()=>{
-        rightTimerId = setInterval(()=>{
-            lastLeft = bodyIndex[bodyIndex.length-1][0]
-            lastBottom = bodyIndex[bodyIndex.length-1][1]
 
-            newLeft = bodyIndex[0][0] + 10
-            newBottom = bodyIndex[0][1]
-            bodyIndex.forEach(cell=>{
+    const moveLeft = ()=>{
+        movingLeft=true
+        movingRight=false
+        clearInterval(upTimerId)
+        clearInterval(rightTimerId)
+        leftTimerId = setInterval(()=>{
+            lastLeft = bodyIndex[0][0]
+            lastBottom = bodyIndex[0][1]
+
+            newLeft = bodyIndex[bodyIndex.length-1][0] - 10
+            newBottom = bodyIndex[bodyIndex.length-1][1]
+            bodyIndex.slice().reverse().forEach(cell=>{
                 currentLeft = cell[0]
                 currentBottom = cell[1]
 
@@ -145,13 +181,13 @@ document.addEventListener('DOMContentLoaded',()=>{
         },100)
     }
 
-    */
+    
 
     
 
     const control=(e)=>{
         if(e.key==='ArrowLeft'){
-            //moveLeft()
+            moveLeft()
         }else if(e.key==='ArrowRight'){
             moveRight()
         }else if(e.key==='ArrowUp'){
