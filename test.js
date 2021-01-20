@@ -1,7 +1,11 @@
 let aa = [
-    [1,1],
-    [1.1,2]
+    [1,1]
 ]
 
 
-    console.log(aa.slice().reverse())
+var d = 1
+var f = 1
+
+aa.forEach(c=>{
+    console.log(c[0]==d && c[1]==f)
+})

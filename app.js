@@ -12,6 +12,71 @@ document.addEventListener('DOMContentLoaded',()=>{
     let movingRight=false
     let movingDown=false
 
+    let gameOver = []
+
+    fullBody = []
+
+    /*
+    let boundary = []
+    for(let i=0;i<13;i++){
+        let blockX = i*40
+        let blockY = 0
+        boundary.push([blockX,blockY])
+        boundary.push([blockX,460])
+        boundary.push([0,i*40])
+        boundary.push([460,i*40])
+    }
+
+
+    boundary.forEach(unit=>{
+        for(let i=unit[0];i<unit[0]+40;i++){
+            for(let j=unit[1];j<unit[1]+40;j++){
+                gameOver.push([i,j])
+            }
+        }
+    })
+
+    //display boundary
+    boundary.forEach(block=>{
+        let blockElement = document.createElement('div')
+        blockElement.classList.add('block')
+        blockElement.style.left = block[0]+'px'
+        blockElement.style.bottom = block[1]+'px'
+
+        border.appendChild(blockElement)
+    })
+
+    */
+    let blocks = []
+    for(let i=0;i<5;i++){
+        let blockX = 40 + parseInt(Math.random()*420)
+        let blockY = 40 + parseInt(Math.random()*420)
+        blocks.push([blockX,blockY])
+    }
+
+    //displaying blocks
+    blocks.forEach(block=>{
+        let blockElement = document.createElement('div')
+        blockElement.classList.add('block')
+        blockElement.style.left = block[0]+'px'
+        blockElement.style.bottom = block[1]+'px'
+
+        border.appendChild(blockElement)
+    })
+
+    blocks.forEach(unit=>{
+        for(let i=unit[0];i<unit[0]+39;i++){
+            for(let j=unit[1];j<unit[1]+39;j++){
+                gameOver.push([i,j])
+            }
+        }
+    })
+
+    
+    
+    console.log(gameOver)
+
+
     let bodyIndex = [
         [start,start],
         [start-10,start],
@@ -19,6 +84,24 @@ document.addEventListener('DOMContentLoaded',()=>{
         [start-30,start],
         [start-40,start],
     ]
+
+    let score = 10
+    function over(){
+        console.log('game over')
+        isGameOver=true
+        /*
+        while(grid.firstChild){
+            grid.removeChild(grid.firstChild)
+        }
+        */
+        //grid.innerHTML=score
+        clearInterval(upTimerId)
+        clearInterval(downTimerId)
+        clearInterval(rightTimerId)
+        clearInterval(leftTimerId)
+        clearInterval(timeNewFood)
+        alert('out')
+    }
 
     let bodyDivArray = []
 
@@ -30,6 +113,15 @@ document.addEventListener('DOMContentLoaded',()=>{
         cell.style.bottom = p[1]+'px'
         bodyDivArray.push(cell)
         border.appendChild(cell)
+
+        /*///
+        for(let x=0;x<10;x++){
+            for(let y=0;y<10;y++){
+                fullBody.unshift([p[0]+x,p[1]+y])
+            }
+        }
+        ///*/
+
     })
 
     const createAnotherCell = (left,bottom)=>{
@@ -37,12 +129,29 @@ document.addEventListener('DOMContentLoaded',()=>{
         bodyDivArray.pop()
         bodyIndex.pop()
 
+        /*
+        ///
+        for(let x=0;x<10;x++){
+            fullBody.pop()
+        }
+        ///
+        */
+
         let cell = document.createElement('div')
         cell.classList.add('snakeBody')
         cell.style.left = left+'px'
         cell.style.bottom = bottom+'px'
         bodyDivArray.unshift(cell)
         bodyIndex.unshift([left,bottom])
+
+        /*///
+        for(let x=0;x<10;x++){
+            for(let y=0;y<10;y++){
+                fullBody.unshift([left+x,bottom+y])
+            }
+        }
+        ///*/
+
         border.appendChild(cell)
 
     }
@@ -181,6 +290,23 @@ let timeNewFood
             */
            createAnotherCell(newLeft,newBottom)
 
+           let yes = false
+
+
+           gameOver.forEach(c=>{
+               yes = (c[0]==bodyIndex[0][0] && c[1]==bodyIndex[0][1])
+               if(yes){
+                   console.log('out')
+                   over()
+               }
+           })
+           /*
+           if(gameOver.includes([bodyIndex[0][0],bodyIndex[0][1]])){
+                console.log('out')
+                over()
+
+           }
+           */
             
 
             /////////   
@@ -256,6 +382,24 @@ let timeNewFood
            createAnotherCell(newLeft,newBottom)
 
 
+           let yes = false
+
+
+            gameOver.forEach(c=>{
+                yes = (c[0]==bodyIndex[0][0] && c[1]==bodyIndex[0][1])
+                if(yes){
+                    console.log('out')
+                    over()
+                }
+            })
+           /*
+           if(gameOver.includes([bodyIndex[0][0],bodyIndex[0][1]])){
+
+            over()
+
+       }
+       */
+
             /////////   
             if(foodRangeX.includes(bodyIndex[0][0]) && foodRangeY.includes(bodyIndex[0][1])){
                 ate = true
@@ -326,7 +470,30 @@ let timeNewFood
             border.appendChild(snakeBody)
             */
            createAnotherCell(newLeft,newBottom)
+            
+           let yes = false
 
+
+            gameOver.forEach(c=>{
+                yes = (c[0]==bodyIndex[0][0] && c[1]==bodyIndex[0][1])
+                if(yes){
+                    console.log('out')
+                    over()
+                }
+            })
+
+            /*
+            if(yes){
+                console.log('out')
+                over()
+            }
+            */
+           /*
+           if(gameOver.includes([bodyIndex[0][0],bodyIndex[0][1]])){
+
+            over()
+
+       }*/
             /////////   
             if(foodRangeX.includes(bodyIndex[0][0]) && foodRangeY.includes(bodyIndex[0][1])){
                 ate = true
@@ -391,6 +558,23 @@ let timeNewFood
             */
 
             createAnotherCell(newLeft,newBottom)
+
+            let yes = false
+
+
+            gameOver.forEach(c=>{
+                yes = (c[0]==bodyIndex[0][0] && c[1]==bodyIndex[0][1])
+                if(yes){
+                    console.log('out')
+                    over()
+                }
+            })
+            /*console.log(gameOver.includes([bodyIndex[0][0],bodyIndex[0][1]]))
+            if(gameOver.includes([bodyIndex[0][0],bodyIndex[0][1]])){
+
+                over()
+
+           }*/
 
             /////////   
             if(foodRangeX.includes(bodyIndex[0][0]) && foodRangeY.includes(bodyIndex[0][1])){
