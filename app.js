@@ -20,15 +20,35 @@ document.addEventListener('DOMContentLoaded',()=>{
         [start-40,start],
     ]
 
-    /*
-    const createSnake = ()=>{
-        border.appendChild(snakeHead)
-        snakeHead.classList.add('snakeHead')
-        snakeHead.style.left = bodyIndex[0][0]+'px'
-        snakeHead.style.bottom = bodyIndex[0][1]+'px'
+    let bodyDivArray = []
+
+    //initially creating the snake
+    bodyIndex.forEach(p=>{
+        let cell = document.createElement('div')
+        cell.classList.add('snakeBody')
+        cell.style.left = p[0]+'px'
+        cell.style.bottom = p[1]+'px'
+        bodyDivArray.push(cell)
+        border.appendChild(cell)
+    })
+
+    const createAnotherCell = (left,bottom)=>{
+        bodyDivArray[bodyDivArray.length-1].remove()
+        bodyDivArray.pop()
+        bodyIndex.pop()
+
+        let cell = document.createElement('div')
+        cell.classList.add('snakeBody')
+        cell.style.left = left+'px'
+        cell.style.bottom = bottom+'px'
+        bodyDivArray.unshift(cell)
+        bodyIndex.unshift([left,bottom])
+        border.appendChild(cell)
+
     }
-    createSnake()
-    */
+
+
+    /*
     class BodyCell {
         constructor(left,bottom) {
             this.left = left
@@ -59,8 +79,8 @@ document.addEventListener('DOMContentLoaded',()=>{
             snakeBody.appendChild(visual)
         }
     }
-
-
+*/
+/*
     const createBody = ()=>{
         bodyIndex.forEach(cell=>{
             let newCell = new BodyCell(cell[0],cell[1])
@@ -68,6 +88,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         border.appendChild(snakeBody)
     }
+    */
 
     let foodX,foodY
 
@@ -105,164 +126,11 @@ document.addEventListener('DOMContentLoaded',()=>{
         
     }
 
-    /*
-    const foodMaker = ()=>{
-
-        
-
-        //clearInterval(rightTimerId)
-        //clearInterval(leftTimerId)
-        //clearInterval(upTimerId)
-        //clearInterval(downTimerId)
-
-        
-
-        foodTimerId = setInterval(()=>{
-            
-            //if(foodTime!=120){
-            food.remove()
-            //}
-            
-            food = document.createElement('div')
-
-            foodX = parseInt(Math.random()*498)
-            foodY = parseInt(Math.random()*498)
-
-            
-            for(let i=foodX;i<foodX+20;i++){
-                foodRangeX.push(i)
-            }
-
-            for(let i=foodY;i<foodY+20;i++){
-                foodRangeY.push(i)
-            }
-
-            tempX = []
-            tempY = []
-            //let tempX = foodRangeX.slice()
-            //let tempY = foodRangeY.slice()
-            tempX = [...foodRangeX]
-            tempY = [...foodRangeY]
-            
-
-            //console.log(foodTime)
-
-            food.classList.add('food')
-            food.style.bottom = foodY+'px'
-            food.style.left = foodX+'px'
-            
-            border.appendChild(food)
-
-            
-
-            //console.log(bodyIndex[0][0])
-            //console.log(bodyIndex[0][1])
-            //console.log(foodRangeX)
-            //console.log(foodRangeY)
-            /*
-            if(tempX.includes(bodyIndex[0][0]) && tempY.includes(bodyIndex[0][1])){
-                console.log('ate')
-                food.remove()
-                foodTime = 120
-            }else{
-                foodTime = 9000
-            }
-            */
-
-            //let stop = setTimeout(foodTime)
-            //clearTimeout(stop)
-
-
-
-            /*
-            setInterval(()=>{
-                if(tempX.includes(bodyIndex[0][0]) && tempY.includes(bodyIndex[0][1])){
-                    console.log('ate')
-                    foodTime = 1
-                }else{
-                    foodTime = 9000
-                }
-            },1)
-            */
-            
-            //setTimeout(4000)
-
-            
-            /*
-
-        },foodTime)
-    }
-    */
-/*
-    const checkAte = ()=>{
-        let cc=setInterval(()=>{
-            if(tempX.includes(bodyIndex[0][0]) && tempY.includes(bodyIndex[0][1])){
-                console.log('ate')
-                food.remove()
-                //food.remove()
-                foodTime = 9000
-            }else{
-                //food.remove()
-                foodTime = 9000
-            }
-
-        },1)
-    }
-
-    */
     
-
-
-/*
-    const checkFood = ()=>{
-        setInterval(()=>{
-
-            foodX = parseInt(Math.random()*498)
-            foodY = parseInt(Math.random()*498)
-
-            for(let i=foodX;i<foodX+20;i++){
-                foodRangeX.push(i)
-            }
-
-            for(let i=foodY;i<foodY+20;i++){
-                foodRangeY.push(i)
-            }
-
-            tempX = []
-            tempY = []
-            //let tempX = foodRangeX.slice()
-            //let tempY = foodRangeY.slice()
-            tempX = [...foodRangeX]
-            tempY = [...foodRangeY]
-
-
-            if(tempX.includes(bodyIndex[0][0]) && tempY.includes(bodyIndex[0][1])){
-                console.log('ate')
-                tempX = []
-                tempY = []
-                
-                //clearInterval(foodTimerId)
-                food.remove()
-                clearInterval(rightTimerId)
-                clearInterval(leftTimerId)
-                clearInterval(upTimerId)
-                clearInterval(downTimerId)
-                clearInterval(foodTimerId)
-                foodMaker()
-                foodTime = 1
-
-            }else{
-                foodTime = 9000
-
-            }
-        },1)
-    }
-
-    */
-
+let timeNewFood
 //checkFood()
     const sendFood = ()=>{
-        setInterval(()=>{
+        timeNewFood = setInterval(()=>{
             food.remove()
             foodRangeX = []
             foodRangeY = []
@@ -292,6 +160,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
                 newLeft = bodyIndex[0][0]
                 newBottom = bodyIndex[0][1] - 10
+                /*
                 bodyIndex.forEach(cell=>{
                     currentLeft = cell[0]
                     currentBottom = cell[1]
@@ -309,7 +178,8 @@ document.addEventListener('DOMContentLoaded',()=>{
                 let newCell = new BodyCell(cell[0],cell[1])
             })  
             border.appendChild(snakeBody)
-
+            */
+           createAnotherCell(newLeft,newBottom)
 
             
 
@@ -322,8 +192,20 @@ document.addEventListener('DOMContentLoaded',()=>{
                 food.remove()
                 foodTime = 120
 
+                /////
+                clearInterval(timeNewFood)
+                sendFood()
+                ////
+
+
                 //lengthen
                 bodyIndex.unshift([bodyIndex[0][0],bodyIndex[0][1]-10])
+                let ll = document.createElement('div')
+                ll.classList.add('snakeBody')
+                ll.style.left = bodyIndex[0][0]+'px'
+                ll.style.bottom = bodyIndex[0][1]-10+'px'
+                bodyDivArray.unshift(ll)
+
 
 
                 //foodScatter()
@@ -332,6 +214,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         },100)
     }
+
+    
 
     const moveUp = ()=>{
         movingUp = true
@@ -350,6 +234,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
                 newLeft = bodyIndex[0][0]
                 newBottom = bodyIndex[0][1] + 10
+                /*
                 bodyIndex.forEach(cell=>{
                     currentLeft = cell[0]
                     currentBottom = cell[1]
@@ -367,6 +252,8 @@ document.addEventListener('DOMContentLoaded',()=>{
                 let newCell = new BodyCell(cell[0],cell[1])
             })  
             border.appendChild(snakeBody)
+            */
+           createAnotherCell(newLeft,newBottom)
 
 
             /////////   
@@ -377,10 +264,20 @@ document.addEventListener('DOMContentLoaded',()=>{
                 console.log('ate')
                 food.remove()
                 foodTime = 120
+
+                /////
+                clearInterval(timeNewFood)
+                sendFood()
+                ////
                 //foodScatter()
 
                 //lengthen
                 bodyIndex.unshift([bodyIndex[0][0],bodyIndex[0][1]+10])
+                let ll = document.createElement('div')
+                ll.classList.add('snakeBody')
+                ll.style.left = bodyIndex[0][0]+'px'
+                ll.style.bottom = bodyIndex[0][1]+10+'px'
+                bodyDivArray.unshift(ll)
 
             }
             ////////
@@ -390,78 +287,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         },100)
     }
 
-/*    const moveUp = ()=>{
-        movingUp = true
-        //movingLeft = false
-        //movingRight = false
-        clearInterval(rightTimerId)
-        clearInterval(leftTimerId)
-        upTimerId = setInterval(()=>{
 
-            if(movingRight){
-                lastLeft = bodyIndex[bodyIndex.length-1][0]
-                lastBottom = bodyIndex[bodyIndex.length-1][1]
-
-                newLeft = bodyIndex[0][0]
-                newBottom = bodyIndex[0][1] + 10
-                bodyIndex.forEach(cell=>{
-                    currentLeft = cell[0]
-                    currentBottom = cell[1]
-
-                    cell[0] = newLeft
-                    cell[1] = newBottom
-
-                    newLeft = currentLeft
-                    newBottom = currentBottom
-                })
-            }else if(movingLeft){
-                lastLeft = bodyIndex[0][0]
-                lastBottom = bodyIndex[0][1]
-
-                newLeft = bodyIndex[bodyIndex.length-1][0]
-                newBottom = bodyIndex[bodyIndex.length-1][1] + 10
-                bodyIndex.slice().reverse().forEach(cell=>{
-                    currentLeft = cell[0]
-                    currentBottom = cell[1]
-
-                    cell[0] = newLeft
-                    cell[1] = newBottom
-
-                    newLeft = currentLeft
-                    newBottom = currentBottom
-                })
-            }else if(movingUp && !movingLeft && !movingRight){
-                lastLeft = bodyIndex[bodyIndex.length-1][0]
-                lastBottom = bodyIndex[bodyIndex.length-1][1]
-
-                newLeft = bodyIndex[0][0]
-                newBottom = bodyIndex[0][1] + 10
-                bodyIndex.forEach(cell=>{
-                    currentLeft = cell[0]
-                    currentBottom = cell[1]
-
-                    cell[0] = newLeft
-                    cell[1] = newBottom
-
-                    newLeft = currentLeft
-                    newBottom = currentBottom
-                })
-            }
-
-
-            
-
-            
-            let fillCell = new FillCell(lastLeft,lastBottom)
-
-            bodyIndex.forEach(cell=>{
-                let newCell = new BodyCell(cell[0],cell[1])
-            })  
-            border.appendChild(snakeBody)
-        },100)
-    }
-
-    */
 
 
     const moveRight = ()=>{
@@ -469,29 +295,17 @@ document.addEventListener('DOMContentLoaded',()=>{
         clearInterval(downTimerId)
         clearInterval(upTimerId)
         clearInterval(leftTimerId)
-
-        //////
-        //foodScatter()
-        /////
-/*
-        if(movingLeft){
-            movingLeft = false
-            bodyIndex = bodyIndex.slice().reverse()
-        }
-  */      
+ 
         rightTimerId = setInterval(()=>{
-            /*
-            if(movingLeft){
-                movingLeft = false
-                bodyIndex = bodyIndex.slice().reverse()
-            }
-            */
+
 
             lastLeft = bodyIndex[bodyIndex.length-1][0]
             lastBottom = bodyIndex[bodyIndex.length-1][1]
 
             newLeft = bodyIndex[0][0] + 10
             newBottom = bodyIndex[0][1]
+
+            /*
             bodyIndex.forEach(cell=>{
                 currentLeft = cell[0]
                 currentBottom = cell[1]
@@ -502,14 +316,16 @@ document.addEventListener('DOMContentLoaded',()=>{
                 newLeft = currentLeft
                 newBottom = currentBottom
             })
-            
+            */
+            /*
             let fillCell = new FillCell(lastLeft,lastBottom)
 
             bodyIndex.forEach(cell=>{
                 let newCell = new BodyCell(cell[0],cell[1])
             })  
             border.appendChild(snakeBody)
-
+            */
+           createAnotherCell(newLeft,newBottom)
 
             /////////   
             if(foodRangeX.includes(bodyIndex[0][0]) && foodRangeY.includes(bodyIndex[0][1])){
@@ -520,9 +336,18 @@ document.addEventListener('DOMContentLoaded',()=>{
                 food.remove()
                 foodTime = 120
                 //foodScatter()
+                /////
+                clearInterval(timeNewFood)
+                sendFood()
+                ////
 
                 //lengthen
                 bodyIndex.unshift([bodyIndex[0][0]+10,bodyIndex[0][1]])
+                let ll = document.createElement('div')
+                ll.classList.add('snakeBody')
+                ll.style.left = bodyIndex[0][0]+10+'px'
+                ll.style.bottom = bodyIndex[0][1]+'px'
+                bodyDivArray.unshift(ll)
 
             }
             ////////
@@ -539,29 +364,14 @@ document.addEventListener('DOMContentLoaded',()=>{
         clearInterval(upTimerId)
         clearInterval(rightTimerId)
 
-        //////
-        //foodScatter()
-        /////
-
-        //if((movingRight && movingLeft) || (!movingUp && movingRight)){
-/*
-        if((!movingRight && movingLeft) || (!movingUp && movingRight)){
-            movingRight = false
-            bodyIndex = bodyIndex.slice().reverse()
-        }
-        */
         leftTimerId = setInterval(()=>{
-            /*
-            if(!movingRight){
-                movingRight = false
-                bodyIndex = bodyIndex.slice().reverse()
-            }
-            */
+
             lastLeft = bodyIndex[bodyIndex.length-1][0]
             lastBottom = bodyIndex[bodyIndex.length-1][1]
 
             newLeft = bodyIndex[0][0] - 10
             newBottom = bodyIndex[0][1]
+            /*
             bodyIndex.forEach(cell=>{
                 currentLeft = cell[0]
                 currentBottom = cell[1]
@@ -578,7 +388,9 @@ document.addEventListener('DOMContentLoaded',()=>{
                 let newCell = new BodyCell(cell[0],cell[1])
             })  
             border.appendChild(snakeBody)
+            */
 
+            createAnotherCell(newLeft,newBottom)
 
             /////////   
             if(foodRangeX.includes(bodyIndex[0][0]) && foodRangeY.includes(bodyIndex[0][1])){
@@ -589,9 +401,18 @@ document.addEventListener('DOMContentLoaded',()=>{
                 food.remove()
                 foodTime = 120
                 //foodScatter()
+                /////
+                clearInterval(timeNewFood)
+                sendFood()
+                ////
 
                 //lengthen
                 bodyIndex.unshift([bodyIndex[0][0]-10,bodyIndex[0][1]])
+                let ll = document.createElement('div')
+                ll.classList.add('snakeBody')
+                ll.style.left = bodyIndex[0][0]-10+'px'
+                ll.style.bottom = bodyIndex[0][1]+'px'
+                bodyDivArray.unshift(ll)
 
             }
             ////////
@@ -623,12 +444,13 @@ document.addEventListener('DOMContentLoaded',()=>{
 
     
     const startSnake = ()=>{
-        createBody()
+        //createBody()
         foodScatter()
         //foodMaker()
         //checkFood()
         //refresh()
         document.addEventListener('keyup',control)
+        
     }
 
     startSnake()
