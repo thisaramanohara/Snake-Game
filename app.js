@@ -321,6 +321,11 @@ document.addEventListener('DOMContentLoaded',()=>{
                 ate = true
                 food.remove()
                 foodTime = 120
+
+                //lengthen
+                bodyIndex.unshift([bodyIndex[0][0],bodyIndex[0][1]-10])
+
+
                 //foodScatter()
             }
             ////////
@@ -373,6 +378,10 @@ document.addEventListener('DOMContentLoaded',()=>{
                 food.remove()
                 foodTime = 120
                 //foodScatter()
+
+                //lengthen
+                bodyIndex.unshift([bodyIndex[0][0],bodyIndex[0][1]+10])
+
             }
             ////////
 
@@ -511,6 +520,10 @@ document.addEventListener('DOMContentLoaded',()=>{
                 food.remove()
                 foodTime = 120
                 //foodScatter()
+
+                //lengthen
+                bodyIndex.unshift([bodyIndex[0][0]+10,bodyIndex[0][1]])
+
             }
             ////////
 
@@ -576,6 +589,10 @@ document.addEventListener('DOMContentLoaded',()=>{
                 food.remove()
                 foodTime = 120
                 //foodScatter()
+
+                //lengthen
+                bodyIndex.unshift([bodyIndex[0][0]-10,bodyIndex[0][1]])
+
             }
             ////////
 
